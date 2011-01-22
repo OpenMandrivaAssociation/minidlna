@@ -35,8 +35,11 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 %description
 MiniDLNA (aka ReadyDLNA) is server software with the aim of being fully
-compliant with DLNA/UPnP-AV clients. It is developed by a NETGEAR employee
-for the ReadyNAS product line.
+compliant with DLNA/UPnP-AV clients. MiniDLNA serves multimedia content
+such as music, video and pictures to compatible clients on the network.
+
+See http://www.upnp.org/ for more details on UPnP
+and http://www.dlna.org/ for mode details on DLNA.
 
 %prep
 %setup -q -n %{name}
