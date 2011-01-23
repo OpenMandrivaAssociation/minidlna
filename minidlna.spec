@@ -1,6 +1,6 @@
 Name: minidlna
 Version: 1.0.18.2
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A DLNA/UPnP-AV compliant media server
 URL: http://sourceforge.net/projects/minidlna/
 Group: Networking/Other
@@ -8,6 +8,8 @@ License: GPL
 Source: minidlna_1.0.18_src.tar.gz
 Source1: initscript
 Source2: minidlna.conf
+Source3: minidlna.1
+Source4: minidlna.conf.5
 # Local patches
 Patch1: minidlna-fix-log-path.patch
 # Selected patches from development tree
@@ -77,6 +79,8 @@ install -m 755 -D %{_sourcedir}/initscript %{buildroot}%{_initrddir}/minidlna
 install -m 644 -D %{_sourcedir}/minidlna.conf \
   %{buildroot}%{_sysconfdir}/minidlna.conf
 install -m 755 -D minidlna %{buildroot}%{_sbindir}/minidlna
+install -m 644 -D minidlna.1 %{buildroot}%{mandir}/man1/minidlna.1
+install -m 644 -D minidlna.conf.5 %{buildroot}%{mandir}/man5/minidlna.conf.5
 
 %clean
 rm -rf %{buildroot}
@@ -92,4 +96,6 @@ rm -rf %{buildroot}
 %doc README
 %attr(755,-,-) %{_sbindir}/minidlna
 %attr(755,-,-) %{_initrddir}/minidlna
-%config %{_sysconfdir}/minidlna.conf
+%config(noreplace) %{_sysconfdir}/minidlna.conf
+%{_mandir}/man1/minidlna.1*
+%{_mandir}/man5/minidlna.conf.5*
