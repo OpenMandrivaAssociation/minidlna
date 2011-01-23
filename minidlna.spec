@@ -11,7 +11,6 @@ Source2: minidlna.conf
 Source3: minidlna.1
 Source4: minidlna.conf.5
 # Local patches
-Patch1: minidlna-fix-log-path.patch
 # Selected patches from development tree
 Patch101: 0008-Make-Xbox360-support-more-generic-for-use-with-other.patch
 Patch102: 0009-Fix-a-few-typos.patch
@@ -26,9 +25,10 @@ Patch111: 0026-Add-Sony-BDP-S370-MKV-support-by-pretending-they-re-.patch
 Patch112: 0027-Sony-SMP-100-needs-the-same-treatment-as-their-BDP-S.patch
 Patch113: 0029-Handle-the-mpegvideo-format-name.patch
 Patch114: 0030-Current-model-Samsung-TVs-have-a-neat-little-bug-whe.patch
-Patch115: 0036-Try-to-trick-Sony-Blu-ray-home-theater-systems-into-.patch
-Patch116: 0038-Fall-back-to-regular-I-O-instead-of-using-sendfile-i.patch
-Patch117: 0041-Cheat-to-make-Sony-Bravia-AVC-support-work.patch
+Patch115: 0035-Add-a-separate-option-log_dir-for-the-log-directory.patch
+Patch116: 0036-Try-to-trick-Sony-Blu-ray-home-theater-systems-into-.patch
+Patch117: 0038-Fall-back-to-regular-I-O-instead-of-using-sendfile-i.patch
+Patch118: 0041-Cheat-to-make-Sony-Bravia-AVC-support-work.patch
 # Selected patches from upstream patch tracker
 #Patch200: minidlna.samsung-new.patch
 BuildRequires: libflac-devel libid3tag-devel libexif-devel libjpeg-devel
@@ -45,7 +45,6 @@ and http://www.dlna.org/ for mode details on DLNA.
 
 %prep
 %setup -q -n %{name}
-%patch1 -p1 -b .fix-log-path
 %patch101 -p1
 %patch102 -p1
 %patch103 -p1
@@ -62,13 +61,15 @@ and http://www.dlna.org/ for mode details on DLNA.
 %patch115 -p1
 %patch116 -p1
 %patch117 -p1
+%patch118 -p1
 #%patch200 -p1
 
 ./genconfig.sh
 sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
 	s!^\(#define OS_VERSION\).*!\1 "%{product_version}"!
 	s!^\(#define OS_URL\).*!\1 "http://www.mandriva.com/"!
-	s!^\(#define DEFAULT_DB_PATH\).*!\1 "/var/cache/%{name}"!' config.h
+	s!^\(#define DEFAULT_DB_PATH\).*!\1 "/var/cache/%{name}"!
+	s!^\(#define DEFAULT_LOG_PATH\).*!\1 "/var/log"!' config.h
 
 %build
 %make
@@ -79,8 +80,10 @@ install -m 755 -D %{_sourcedir}/initscript %{buildroot}%{_initrddir}/minidlna
 install -m 644 -D %{_sourcedir}/minidlna.conf \
   %{buildroot}%{_sysconfdir}/minidlna.conf
 install -m 755 -D minidlna %{buildroot}%{_sbindir}/minidlna
-install -m 644 -D minidlna.1 %{buildroot}%{mandir}/man1/minidlna.1
-install -m 644 -D minidlna.conf.5 %{buildroot}%{mandir}/man5/minidlna.conf.5
+install -m 644 -D %{_sourcedir}/minidlna.1 \
+  %{buildroot}%{_mandir}/man1/minidlna.1
+install -m 644 -D %{_sourcedir}/minidlna.conf.5 \
+  %{buildroot}%{_mandir}/man5/minidlna.conf.5
 
 %clean
 rm -rf %{buildroot}
