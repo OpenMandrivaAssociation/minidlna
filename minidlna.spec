@@ -1,6 +1,6 @@
 Name: minidlna
 Version: 1.0.22
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A DLNA/UPnP-AV compliant media server
 URL: http://sourceforge.net/projects/minidlna/
 Group: Networking/Other
@@ -15,8 +15,13 @@ Source4: minidlna.conf.5
 #Patch100:
 # Selected patches from upstream patch tracker
 #Patch200:
-BuildRequires: libflac-devel libid3tag-devel libexif-devel libjpeg-devel
-BuildRequires: libsqlite3-devel libffmpeg-devel libvorbis-devel
+BuildRequires:	libflac-devel
+BuildRequires:	libid3tag-devel
+BuildRequires:	libexif-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	libsqlite3-devel
+BuildRequires:	libffmpeg-devel
+BuildRequires:	libvorbis-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 %description
@@ -37,7 +42,10 @@ sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
 	s!^\(#define DEFAULT_DB_PATH\).*!\1 "/var/cache/%{name}"!
 	s!^\(#define DEFAULT_LOG_PATH\).*!\1 "/var/log"!' config.h
 
+
 %build
+%serverbuild_hardened
+%setup_compile_flags
 %make
 
 %install
