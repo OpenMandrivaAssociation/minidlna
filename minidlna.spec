@@ -45,7 +45,6 @@ sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
 
 %build
 %serverbuild_hardened
-%setup_compile_flags
 %make
 
 %install
