@@ -1,6 +1,6 @@
 Name: minidlna
 Version: 1.0.22
-Release: %mkrel 2
+Release: %mkrel 3
 Summary: A DLNA/UPnP-AV compliant media server
 URL: http://sourceforge.net/projects/minidlna/
 Group: Networking/Other
