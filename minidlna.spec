@@ -1,15 +1,16 @@
-Name: minidlna
-Version: 1.0.22
-Release: %mkrel 3
-Summary: A DLNA/UPnP-AV compliant media server
-URL: http://sourceforge.net/projects/minidlna/
-Group: Networking/Other
-License: GPL
-Source: minidlna_%{version}_src.tar.gz
-Source1: initscript
-Source2: minidlna.conf
-Source3: minidlna.1
-Source4: minidlna.conf.5
+Summary:	A DLNA/UPnP-AV compliant media server
+Name:		minidlna
+Version:	1.0.22
+Release:	%mkrel 4
+URL:		http://sourceforge.net/projects/minidlna/
+Group:		Networking/Other
+License:	GPL
+Source0:	minidlna_%{version}_src.tar.gz
+Source1:	initscript
+Source2:	minidlna.conf
+Source3:	minidlna.1
+Source4:	minidlna.conf.5
+Source5:	%{name}.service
 # Local patches
 # Selected patches from development tree
 #Patch100:
@@ -22,7 +23,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libsqlite3-devel
 BuildRequires:	libffmpeg-devel
 BuildRequires:	libvorbis-devel
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 MiniDLNA (aka ReadyDLNA) is server software with the aim of being fully
@@ -46,18 +47,26 @@ sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
 %build
 %serverbuild
 %setup_compile_flags
+
+#(tpg) obey %optflags
+sed -i 's/CFLAGS = -Wall -g -O3/CFLAGS +=/' Makefile
+
+#(tpg) verbose make
+sed -i 's/@$(CC)/$(CC)/' Makefile
+
 %make
 
 %install
 rm -rf %{buildroot}
-install -m 755 -D %{_sourcedir}/initscript %{buildroot}%{_initrddir}/minidlna
-install -m 644 -D %{_sourcedir}/minidlna.conf \
-  %{buildroot}%{_sysconfdir}/minidlna.conf
+%if %mdkver >= 201100
+install -D -p -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
+%else
+install -m 755 -D %{SOURCE1} %{buildroot}%{_initrddir}/minidlna
+%endif
+install -m 644 -D %{_sourcedir}/minidlna.conf %{buildroot}%{_sysconfdir}/minidlna.conf
 install -m 755 -D minidlna %{buildroot}%{_sbindir}/minidlna
-install -m 644 -D %{_sourcedir}/minidlna.1 \
-  %{buildroot}%{_mandir}/man1/minidlna.1
-install -m 644 -D %{_sourcedir}/minidlna.conf.5 \
-  %{buildroot}%{_mandir}/man5/minidlna.conf.5
+install -m 644 -D %{_sourcedir}/minidlna.1 %{buildroot}%{_mandir}/man1/minidlna.1
+install -m 644 -D %{_sourcedir}/minidlna.conf.5 %{buildroot}%{_mandir}/man5/minidlna.conf.5
 
 %clean
 rm -rf %{buildroot}
@@ -72,7 +81,11 @@ rm -rf %{buildroot}
 %defattr(0644,root,root,0755)
 %doc README
 %attr(755,-,-) %{_sbindir}/minidlna
+%if %mdkver >= 201100
+%{_unitdir}/%{name}.service
+%else
 %attr(755,-,-) %{_initrddir}/minidlna
+%endif
 %config(noreplace) %{_sysconfdir}/minidlna.conf
 %{_mandir}/man1/minidlna.1*
 %{_mandir}/man5/minidlna.conf.5*
