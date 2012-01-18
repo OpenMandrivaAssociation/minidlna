@@ -63,10 +63,10 @@ install -D -p -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
 %else
 install -m 755 -D %{SOURCE1} %{buildroot}%{_initrddir}/minidlna
 %endif
-install -m 644 -D %{_sourcedir}/minidlna.conf %{buildroot}%{_sysconfdir}/minidlna.conf
+install -m 644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/minidlna.conf
 install -m 755 -D minidlna %{buildroot}%{_sbindir}/minidlna
-install -m 644 -D %{_sourcedir}/minidlna.1 %{buildroot}%{_mandir}/man1/minidlna.1
-install -m 644 -D %{_sourcedir}/minidlna.conf.5 %{buildroot}%{_mandir}/man5/minidlna.conf.5
+install -m 644 -D %{SOURCE3} %{buildroot}%{_mandir}/man1/minidlna.1
+install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
 
 %clean
 rm -rf %{buildroot}
@@ -76,6 +76,10 @@ rm -rf %{buildroot}
 
 %preun
 %_preun_service minidlna
+
+%if "%{_unitdir}" == "%%{unitdir}"
+%define %{_unitdir} /lib/systemd/system
+%endif
 
 %files
 %defattr(0644,root,root,0755)
