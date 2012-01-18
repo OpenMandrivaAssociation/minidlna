@@ -1,3 +1,7 @@
+%if "%{_unitdir}" == "%%{unitdir}"
+%define %{_unitdir} /lib/systemd/system
+%endif
+
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.0.22
@@ -76,10 +80,6 @@ rm -rf %{buildroot}
 
 %preun
 %_preun_service minidlna
-
-%if "%{_unitdir}" == "%%{unitdir}"
-%define %{_unitdir} /lib/systemd/system
-%endif
 
 %files
 %defattr(0644,root,root,0755)
