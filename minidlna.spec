@@ -27,6 +27,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	sqlite3-devel
 BuildRequires:	ffmpeg-devel
 BuildRequires:	libvorbis-devel
+BuildRequires:	systemd-units
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
