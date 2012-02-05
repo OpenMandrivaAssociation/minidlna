@@ -25,7 +25,7 @@ BuildRequires:	libid3tag-devel
 BuildRequires:	libexif-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libsqlite3-devel
-BuildRequires:	libffmpeg-devel
+BuildRequires:	ffmpeg-devel
 BuildRequires:	libvorbis-devel
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
