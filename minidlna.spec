@@ -24,7 +24,7 @@ BuildRequires:	libflac-devel
 BuildRequires:	libid3tag-devel
 BuildRequires:	libexif-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	libsqlite3-devel
+BuildRequires:	sqlite3-devel
 BuildRequires:	ffmpeg-devel
 BuildRequires:	libvorbis-devel
 Requires(post):	rpm-helper
