@@ -4,8 +4,8 @@
 
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.0.22
-Release:	%mkrel 4
+Version:	1.0.23
+Release:	%mkrel 1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPL
@@ -27,6 +27,8 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libsqlite3-devel
 BuildRequires:	libffmpeg-devel
 BuildRequires:	libvorbis-devel
+Requires(post):	rpm-helper
+Requires(preun):	rpm-helper
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
