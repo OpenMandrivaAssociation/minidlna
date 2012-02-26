@@ -5,13 +5,12 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.0.24
-Release:	%mkrel 1
+Release:	%mkrel 2
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPL
 Source0:	minidlna_%{version}_src.tar.gz
 Source1:	initscript
-Source2:	minidlna.conf
 Source3:	minidlna.1
 Source4:	minidlna.conf.5
 Source5:	%{name}.service
@@ -65,15 +64,19 @@ sed -i 's/@$(CC)/$(CC)/' Makefile
 
 %install
 rm -rf %{buildroot}
+
+%makeinstall_std
+
 %if %mdkver >= 201100
 install -D -p -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
 %else
 install -m 755 -D %{SOURCE1} %{buildroot}%{_initrddir}/minidlna
 %endif
-install -m 644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/minidlna.conf
-install -m 755 -D minidlna %{buildroot}%{_sbindir}/minidlna
+
+install -m 644 -D minidlna.conf %{buildroot}%{_sysconfdir}/minidlna.conf
 install -m 644 -D %{SOURCE3} %{buildroot}%{_mandir}/man1/minidlna.1
 install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
+
 
 %clean
 rm -rf %{buildroot}
