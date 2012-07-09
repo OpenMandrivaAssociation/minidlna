@@ -5,7 +5,7 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.0.24
-Release:	%mkrel 2
+Release:	3
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPL
@@ -29,7 +29,6 @@ BuildRequires:	libvorbis-devel
 BuildRequires:	systemd-units
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 MiniDLNA (aka ReadyDLNA) is server software with the aim of being fully
@@ -77,10 +76,6 @@ install -m 644 -D minidlna.conf %{buildroot}%{_sysconfdir}/minidlna.conf
 install -m 644 -D %{SOURCE3} %{buildroot}%{_mandir}/man1/minidlna.1
 install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
 
-
-%clean
-rm -rf %{buildroot}
-
 %post
 %_post_service minidlna
 
@@ -88,7 +83,6 @@ rm -rf %{buildroot}
 %_preun_service minidlna
 
 %files
-%defattr(0644,root,root,0755)
 %doc README
 %attr(755,-,-) %{_sbindir}/minidlna
 %if %mdkver >= 201100
