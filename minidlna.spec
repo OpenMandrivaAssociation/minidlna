@@ -4,8 +4,8 @@
 
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.0.24
-Release:	3
+Version:	1.0.25
+Release:	1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPL
@@ -54,7 +54,7 @@ sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
 %setup_compile_flags
 
 #(tpg) obey %optflags
-sed -i 's/CFLAGS = -Wall -g -O3/CFLAGS +=/' Makefile
+sed -i 's/CFLAGS =/CFLAGS +=/' Makefile
 
 #(tpg) verbose make
 sed -i 's/@$(CC)/$(CC)/' Makefile
