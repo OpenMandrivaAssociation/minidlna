@@ -1,0 +1,86 @@
+.\" Man page for minidlna
+.\"
+.\" Copyright (C) 2010 Benoît Knecht <benoit.knecht@fsfe.org>
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\" 3. Neither the name of the University nor the names of its contributors
+.\"    may be used to endorse or promote products derived from this software
+.\"    without specific prior written permission.
+.Dd October 19, 2010
+.Dt MINIDLNA \&1 "General Commands Manual"
+.Os Debian
+.Sh NAME
+.Nm minidlna
+.Nd lightweight DLNA/UPnP-AV server
+.Sh SYNOPSIS
+.Nm
+.Op Fl f Ar config_file
+.Op Fl d
+.Op Fl a listening_ip
+.Op Fl p Ar port
+.Op Fl s Ar serial
+.Op Fl m Ar model_number
+.Op Fl t Ar notify_interval
+.Op Fl P Ar pid_filename
+.Op Fl w Ar url
+.Op Fl R
+.Pp
+.Nm
+.Op Fl h \*[Ba] Fl V
+.Sh DESCRIPTION
+The
+.Nm
+daemon is a DLNA/UPnP-AV server sharing media files (video, music and pictures)
+to clients on your network. Clients are typically multimedia players such as
+vlc, totem and xbmc, and devices such as portable media players, smartphones,
+televisions, video game entertainment systems and blu-ray players.
+.Sh OPTIONS
+All the options below
+.Pq except Fl f
+can also be set in a configuration file
+.Pq see Xr minidlna.conf 5 .
+.Bl -tag -width Ds
+.It Fl a Ar listening_ip
+IP address the daemon should be listening on.
+.It Fl d
+Activate debug mode (do not daemonize).
+.It Fl f Ar config_file
+Specify the location of the configuration file. Uses
+.Pa /etc/minidlna.conf
+by default.
+.It Fl h
+Show help and exit.
+.It Fl m Ar model_number
+Model number the daemon will report to clients in its XML description.
+.It P Ar pid_filename
+PID file to use; the default is
+.Pa /var/run/minidlna.pid .
+.It Fl p Ar port
+Port number to listen on; the default is port 80.
+.It Fl R
+Forces a full rescan of the media files.
+.It Fl s Ar serial
+Serial number the daemon will report to clients in its XML description.
+.It Fl t Ar notify_interval
+Notify interval, in seconds; defaults to 895 seconds.
+.It Fl V
+Show the program version and exit.
+.It Fl w Ar url
+Sets the presentation url; the default is http address.
+.El
+.Sh FILES
+.Bl -tag -width Ds -compact
+.It Pa /etc/minidlna.conf
+Default system-wide configuration file. See
+.Xr minidlna.conf 5
+for details on the syntax.
+.El
+.Sh SEE ALSO
+.Xr minidlna.conf 5

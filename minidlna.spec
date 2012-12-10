@@ -1,16 +1,12 @@
-%if "%{_unitdir}" == "%%{unitdir}"
-%define %{_unitdir} /lib/systemd/system
-%endif
-
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.0.25
-Release:	1
+Release:	%mkrel 1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
-License:	GPL
-Source0:	minidlna_%{version}_src.tar.gz
-Source1:	initscript
+License:	GPLv2
+Source0:	http://downloads.sourceforge.net/project/minidlna/minidlna/%{version}/minidlna_%{version}_src.tar.gz
+Source2:	minidlna-tmpfiles.conf
 Source3:	minidlna.1
 Source4:	minidlna.conf.5
 Source5:	%{name}.service
@@ -19,13 +15,14 @@ Source5:	%{name}.service
 #Patch100:
 # Selected patches from upstream patch tracker
 #Patch200:
-BuildRequires:	libflac-devel
+Patch0:		minidlna-1.0.25-ffmpeg10.patch
+BuildRequires:	pkgconfig(flac)
 BuildRequires:	libid3tag-devel
 BuildRequires:	libexif-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	sqlite3-devel
+BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	ffmpeg-devel
-BuildRequires:	libvorbis-devel
+BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	systemd-units
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
@@ -40,6 +37,7 @@ and http://www.dlna.org/ for mode details on DLNA.
 
 %prep
 %setup -q
+%patch0 -p1
 
 ./genconfig.sh
 sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
@@ -54,7 +52,7 @@ sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
 %setup_compile_flags
 
 #(tpg) obey %optflags
-sed -i 's/CFLAGS =/CFLAGS +=/' Makefile
+sed -i 's/CFLAGS = -Wall -g -O3/CFLAGS +=/' Makefile
 
 #(tpg) verbose make
 sed -i 's/@$(CC)/$(CC)/' Makefile
@@ -62,19 +60,15 @@ sed -i 's/@$(CC)/$(CC)/' Makefile
 %make
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std
 
-%if %mdkver >= 201100
 install -D -p -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
-%else
-install -m 755 -D %{SOURCE1} %{buildroot}%{_initrddir}/minidlna
-%endif
-
 install -m 644 -D minidlna.conf %{buildroot}%{_sysconfdir}/minidlna.conf
 install -m 644 -D %{SOURCE3} %{buildroot}%{_mandir}/man1/minidlna.1
 install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
+
+mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
+install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
 %post
 %_post_service minidlna
@@ -83,13 +77,11 @@ install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
 %_preun_service minidlna
 
 %files
+%defattr(0644,root,root,0755)
 %doc README
 %attr(755,-,-) %{_sbindir}/minidlna
-%if %mdkver >= 201100
 %{_unitdir}/%{name}.service
-%else
-%attr(755,-,-) %{_initrddir}/minidlna
-%endif
 %config(noreplace) %{_sysconfdir}/minidlna.conf
+%config(noreplace) %{_sysconfdir}/tmpfiles.d/%{name}.conf
 %{_mandir}/man1/minidlna.1*
 %{_mandir}/man5/minidlna.conf.5*

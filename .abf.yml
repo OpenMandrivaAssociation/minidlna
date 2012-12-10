@@ -1,6 +1,3 @@
 sources:
-  "initscript:"	cb4b4d2a225a9a53daa7ad65bd2bdb10628c5f3e
-  "minidlna.1:"	6c421aa0ea87d31fafd1c72936d5605f01cc4e7d
-  "minidlna_1.0.25_src.tar.gz:"	33742f02367006c6e4af7128b91c830026e59b9f
-  "minidlna.conf.5:"	7ff25196ccb4c71d639a10b23df066dc918a32ec
-  "minidlna.service:"	78ec7485ee07de2ed2947a312fe434e9c265e545
+  "minidlna_1.0.24_src.tar.gz": 5e7fe50dbac5b5784e3d7a4eb9251fa9b37e97f2
+  minidlna_1.0.25_src.tar.gz: 33742f02367006c6e4af7128b91c830026e59b9f
