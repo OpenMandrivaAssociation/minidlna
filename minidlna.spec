@@ -1,7 +1,7 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.0.25
-Release:	%mkrel 1
+Release:	2
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPLv2
@@ -72,12 +72,12 @@ install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
 %post
 %_post_service minidlna
+systemd-tmpfiles --create minidlna.conf
 
 %preun
 %_preun_service minidlna
 
 %files
-%defattr(0644,root,root,0755)
 %doc README
 %attr(755,-,-) %{_sbindir}/minidlna
 %{_unitdir}/%{name}.service
