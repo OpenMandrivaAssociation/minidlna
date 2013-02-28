@@ -19,7 +19,7 @@ Patch0:		minidlna-1.0.25-ffmpeg10.patch
 BuildRequires:	pkgconfig(flac)
 BuildRequires:	libid3tag-devel
 BuildRequires:	libexif-devel
-BuildRequires:	libjpeg-devel
+BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	ffmpeg-devel >= 1.1
 BuildRequires:	pkgconfig(vorbis)
