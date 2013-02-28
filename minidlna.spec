@@ -70,12 +70,20 @@ install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
 mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
+%pre
+%_pre_useradd minidlna %{_var}/run/%{name} /bin/false
+%_pre_groupadd minidlna minidlna
+
 %post
 %_post_service minidlna
 systemd-tmpfiles --create minidlna.conf
 
 %preun
 %_preun_service minidlna
+
+%postun
+%_postun_userdel minidlna
+%_postun_groupdel minidlna minidlna
 
 %files
 %doc README
