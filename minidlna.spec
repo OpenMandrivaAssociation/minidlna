@@ -76,7 +76,7 @@ install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
 %post
 %_post_service minidlna
-systemd-tmpfiles --create minidlna.conf
+%tmpfiles_create %{name}.conf
 
 %preun
 %_preun_service minidlna
