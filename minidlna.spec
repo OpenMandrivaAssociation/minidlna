@@ -55,6 +55,8 @@ install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
 mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
+%find_lang %{name}
+
 %pre
 %_pre_useradd minidlna %{_var}/run/%{name} /bin/false
 %_pre_groupadd minidlna minidlna
@@ -70,9 +72,9 @@ install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 %_postun_userdel minidlna
 %_postun_groupdel minidlna minidlna
 
-%files
+%files -f %{name}.lang
 %doc README
-%attr(755,-,-) %{_sbindir}/minidlna
+%attr(755,-,-) %{_sbindir}/minidlna*
 %{_unitdir}/%{name}.service
 %config(noreplace) %{_sysconfdir}/minidlna.conf
 %config(noreplace) %{_sysconfdir}/tmpfiles.d/%{name}.conf
