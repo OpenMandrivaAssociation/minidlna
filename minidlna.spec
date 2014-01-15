@@ -1,21 +1,15 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.0.25
-Release:	5
+Version:	1.1.1
+Release:	1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPLv2
-Source0:	http://downloads.sourceforge.net/project/minidlna/minidlna/%{version}/minidlna_%{version}_src.tar.gz
+Source0:	http://downloads.sourceforge.net/project/minidlna/minidlna/%{version}/minidlna-%{version}.tar.gz
 Source2:	minidlna-tmpfiles.conf
 Source3:	minidlna.1
 Source4:	minidlna.conf.5
 Source5:	%{name}.service
-# Local patches
-# Selected patches from development tree
-#Patch100:
-# Selected patches from upstream patch tracker
-#Patch200:
-Patch0:		minidlna-1.0.25-ffmpeg10.patch
 BuildRequires:	pkgconfig(flac)
 BuildRequires:	libid3tag-devel
 BuildRequires:	libexif-devel
@@ -23,7 +17,7 @@ BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	ffmpeg-devel >= 1.1
 BuildRequires:	pkgconfig(vorbis)
-BuildRequires:	systemd-units
+BuildRequires:	systemd
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
 
@@ -37,25 +31,16 @@ and http://www.dlna.org/ for mode details on DLNA.
 
 %prep
 %setup -q
-%patch0 -p1
-
-./genconfig.sh
-sed -i -e 's!^\(#define OS_NAME\).*!\1 "%{product_vendor}"!
-	s!^\(#define OS_VERSION\).*!\1 "%{product_version}"!
-	s!^\(#define OS_URL\).*!\1 "http://www.mandriva.com/"!
-	s!^\(#define DEFAULT_DB_PATH\).*!\1 "/var/cache/%{name}"!
-	s!^\(#define DEFAULT_LOG_PATH\).*!\1 "/var/log"!' config.h
-
 
 %build
 %serverbuild
-%setup_compile_flags
 
-#(tpg) obey %optflags
-sed -i 's/CFLAGS = -Wall -g -O3/CFLAGS +=/' Makefile
-
-#(tpg) verbose make
-sed -i 's/@$(CC)/$(CC)/' Makefile
+%configure2_5x \
+	--with-log-path=%{_logdir} \
+	--with-db-path=%{_localstatedir}/cache \
+	--with-os-name="%{distribution}"\
+	--with-os-version="%{distro_release}" \
+	--with-os-url="%{disturl}"
 
 %make
 
@@ -69,6 +54,8 @@ install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
 
 mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
+
+%find_lang %{name}
 
 %pre
 %_pre_useradd minidlna %{_var}/run/%{name} /bin/false
@@ -85,9 +72,9 @@ install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 %_postun_userdel minidlna
 %_postun_groupdel minidlna minidlna
 
-%files
+%files -f %{name}.lang
 %doc README
-%attr(755,-,-) %{_sbindir}/minidlna
+%attr(755,-,-) %{_sbindir}/minidlna*
 %{_unitdir}/%{name}.service
 %config(noreplace) %{_sysconfdir}/minidlna.conf
 %config(noreplace) %{_sysconfdir}/tmpfiles.d/%{name}.conf
