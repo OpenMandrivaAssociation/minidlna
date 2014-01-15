@@ -5,7 +5,8 @@ After=network.target
 [Service]
 Type=forking
 PIDFile=/var/run/minidlna.pid
-ExecStart=/usr/sbin/minidlnad -f /etc/minidlna.conf
+ExecStart=/usr/sbin/minidlnad -f /etc/minidlna.conf -P /run/minidlna/minidlna.pid
+PIDFile=/run/minidlna/minidlna.pid
 
 [Install]
 WantedBy=multi-user.target
