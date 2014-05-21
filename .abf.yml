@@ -1,3 +1,4 @@
----
-sources:
+removed_sources:
   minidlna-1.1.1.tar.gz: 97c28d2b861957620d319929f904225e906830c7
+sources:
+  minidlna-1.1.2.tar.gz: ba03d691b9aa95b55ac822905571ab1127492344

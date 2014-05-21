@@ -1,7 +1,7 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.1.1
-Release:	2
+Version:	1.1.2
+Release:	1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPLv2
@@ -20,6 +20,7 @@ BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	systemd
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
+Requires(postun):	rpm-helper
 
 %description
 MiniDLNA (aka ReadyDLNA) is server software with the aim of being fully
@@ -55,13 +56,17 @@ install -m 644 -D %{SOURCE4} %{buildroot}%{_mandir}/man5/minidlna.conf.5
 mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
+install -d -m 0755 %{buildroot}%{_localstatedir}/cache/%{name}/
+touch %{buildroot}%{_localstatedir}/cache/%{name}/files.db
+
 %find_lang %{name}
 
 %pre
-%_pre_useradd minidlna %{_var}/run/%{name} /bin/false
+%_pre_useradd %{name} /run/%{name} /sbin/nologin
 %_pre_groupadd minidlna minidlna
 
 %post
+%create_ghostfile %{_localstatedir}/cache/%{name}/files.db %{name} %{name} 0644
 %_post_service minidlna
 %tmpfiles_create %{name}.conf
 
@@ -74,9 +79,11 @@ install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 
 %files -f %{name}.lang
 %doc README
+%dir %attr(-,minidlna,minidlna) %{_localstatedir}/cache/%{name}/
+%ghost %attr(-,minidlna,minidlna) %{_localstatedir}/cache/%{name}/files.db
 %attr(755,-,-) %{_sbindir}/minidlna*
 %{_unitdir}/%{name}.service
 %config(noreplace) %{_sysconfdir}/minidlna.conf
-%config(noreplace) %{_sysconfdir}/tmpfiles.d/%{name}.conf
+%{_sysconfdir}/tmpfiles.d/%{name}.conf
 %{_mandir}/man1/minidlna.1*
 %{_mandir}/man5/minidlna.conf.5*
