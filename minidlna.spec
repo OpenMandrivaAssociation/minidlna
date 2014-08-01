@@ -1,6 +1,6 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.1.2
+Version:	1.1.3
 Release:	1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
@@ -67,11 +67,11 @@ touch %{buildroot}%{_localstatedir}/cache/%{name}/files.db
 
 %post
 %create_ghostfile %{_localstatedir}/cache/%{name}/files.db %{name} %{name} 0644
-%_post_service minidlna
 %tmpfiles_create %{name}.conf
+%systemd_post minidlna
 
 %preun
-%_preun_service minidlna
+%systemd_preun minidlna
 
 %postun
 %_postun_userdel minidlna
