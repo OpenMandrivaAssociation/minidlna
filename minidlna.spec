@@ -1,6 +1,6 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.1.3
+Version:	1.1.4
 Release:	1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
@@ -36,7 +36,7 @@ and http://www.dlna.org/ for mode details on DLNA.
 %build
 %serverbuild
 
-%configure2_5x \
+%configure \
 	--with-log-path=%{_logdir} \
 	--with-db-path=%{_localstatedir}/cache \
 	--with-os-name="%{distribution}"\
