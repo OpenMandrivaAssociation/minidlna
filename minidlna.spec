@@ -1,6 +1,6 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.1.3
+Version:	1.1.4
 Release:	1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
