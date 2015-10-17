@@ -1,7 +1,7 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.1.5
-Release:	1
+Release:	2
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPLv2
@@ -59,6 +59,11 @@ install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf
 install -d -m 0755 %{buildroot}%{_localstatedir}/cache/%{name}/
 touch %{buildroot}%{_localstatedir}/cache/%{name}/files.db
 
+install -d %{buildroot}%{_presetdir}
+cat > %{buildroot}%{_presetdir}/86-minidlna.preset << EOF
+enable minidlna.service
+EOF
+
 %find_lang %{name}
 
 %pre
@@ -67,11 +72,6 @@ touch %{buildroot}%{_localstatedir}/cache/%{name}/files.db
 
 %post
 %create_ghostfile %{_localstatedir}/cache/%{name}/files.db %{name} %{name} 0644
-%tmpfiles_create %{name}.conf
-%systemd_post minidlna
-
-%preun
-%systemd_preun minidlna
 
 %postun
 %_postun_userdel minidlna
@@ -82,6 +82,7 @@ touch %{buildroot}%{_localstatedir}/cache/%{name}/files.db
 %dir %attr(-,minidlna,minidlna) %{_localstatedir}/cache/%{name}/
 %ghost %attr(-,minidlna,minidlna) %{_localstatedir}/cache/%{name}/files.db
 %attr(755,-,-) %{_sbindir}/minidlna*
+%{_presetdir}/86-minidlna.preset
 %{_unitdir}/%{name}.service
 %config(noreplace) %{_sysconfdir}/minidlna.conf
 %{_sysconfdir}/tmpfiles.d/%{name}.conf
