@@ -1,7 +1,7 @@
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.1.5
-Release:	3
+Release:	4
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPLv2
@@ -10,6 +10,11 @@ Source2:	minidlna-tmpfiles.conf
 Source3:	minidlna.1
 Source4:	minidlna.conf.5
 Source5:	%{name}.service
+Patch0:		01-run-instead-of-var-run.patch
+Patch2:		03-make-sure-the-database-is-closed-after-scanning.patch
+Patch3:		10-db_dir-should-not-affect-log_dir.patch
+Patch4:		07-fix-multi-artist-album-handling.patch
+Patch5:		02-use-USER-instead-of-LOGNAME.patch
 BuildRequires:	pkgconfig(flac)
 BuildRequires:	libid3tag-devel
 BuildRequires:	libexif-devel
@@ -32,6 +37,7 @@ and http://www.dlna.org/ for mode details on DLNA.
 
 %prep
 %setup -q
+%apply_patches
 
 %build
 %serverbuild
