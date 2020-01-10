@@ -37,7 +37,7 @@ and http://www.dlna.org/ for mode details on DLNA.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 %build
 %serverbuild
