@@ -15,6 +15,7 @@ Patch2:		03-make-sure-the-database-is-closed-after-scanning.patch
 Patch3:		10-db_dir-should-not-affect-log_dir.patch
 Patch4:		07-fix-multi-artist-album-handling.patch
 Patch5:		02-use-USER-instead-of-LOGNAME.patch
+Patch6:		minidlna-multiple_definition.patch
 BuildRequires:	pkgconfig(flac)
 BuildRequires:	libid3tag-devel
 BuildRequires:	libexif-devel
@@ -22,7 +23,7 @@ BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	ffmpeg-devel >= 1.1
 BuildRequires:	pkgconfig(vorbis)
-BuildRequires:	systemd
+BuildRequires:	systemd-macros
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
 Requires(postun):	rpm-helper
