@@ -1,12 +1,13 @@
 [Unit]
 Description=MiniDLNA is a DLNA/UPnP-AV server software
-After=syslog.target local-fs.target network.target
+After=local-fs.target network.target
 
 [Service]
-Type=simple
-User=minidlna
-Group=minidlna
+Type=exec
+DynamicUser=yes
 ExecStart=/usr/sbin/minidlnad -S
+RuntimeDirectory=minidlna
+CacheDirectory=minidlna
 ProtectSystem=full
 ProtectHome=on
 PrivateDevices=on
