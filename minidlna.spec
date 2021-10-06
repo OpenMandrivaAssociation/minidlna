@@ -53,6 +53,10 @@ export ac_cv_lib_id3tag__lz___id3_file_open=yes
 %install
 %make_install
 
+
+install -D -p -m 0644 %{name}.conf %{buildroot}%{_sysconfdir}/minidlna.conf
+install -D -p -m 0644 minidlna.conf.5 %{buildroot}%{_mandir}/man5/%{name}.conf.5
+install -D -p -m 0644 minidlnad.8 %{buildroot}%{_mandir}/man8/%{name}d.8
 install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_sysusersdir}/%{name}.conf
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 install -D -p -m 0644 %{SOURCE3} %{buildroot}%{_unitdir}/%{name}.service
@@ -89,5 +93,4 @@ EOF
 %config(noreplace) %{_sysconfdir}/minidlna.conf
 %{_sysusersdir}/%{name}.conf
 %{_tmpfilesdir}/%{name}.conf
-%doc %{_mandir}/man1/minidlna.1*
-%doc %{_mandir}/man5/minidlna.conf.5*
+%doc %{_mandir}/man?/%{name}*
