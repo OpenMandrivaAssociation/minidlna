@@ -1,3 +1,5 @@
+%define _disable_rebuild_configure 1
+
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
 Version:	1.3.0
@@ -38,7 +40,7 @@ sed -i 's|#user=.*|user=minidlna|g' minidlna.conf
 %build
 %serverbuild
 
-ac_cv_lib_id3tag__lz___id3_file_open=yes \
+export ac_cv_lib_id3tag__lz___id3_file_open=yes
 %configure \
 	--with-log-path=%{_logdir} \
 	--with-db-path=%{_localstatedir}/cache \
