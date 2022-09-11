@@ -2,8 +2,8 @@
 
 Summary:	A DLNA/UPnP-AV compliant media server
 Name:		minidlna
-Version:	1.3.0
-Release:	4
+Version:	1.3.2
+Release:	1
 URL:		http://sourceforge.net/projects/minidlna/
 Group:		Networking/Other
 License:	GPLv2
@@ -12,8 +12,6 @@ Source1:	%{name}.sysusers
 Source2:	%{name}.tmpfiles
 Source3:	%{name}.service
 Patch0:		minidlna-rundir.patch
-Patch1:		https://gitweb.gentoo.org/repo/gentoo.git/plain/net-misc/minidlna/files/minidlna-1.3.0-fd-leak.patch
-Patch2:		https://gitweb.gentoo.org/repo/gentoo.git/plain/net-misc/minidlna/files/minidlna-1.3.0-fno-common.patch
 BuildRequires:	pkgconfig(flac)
 BuildRequires:	pkgconfig(libexif)
 BuildRequires:	pkgconfig(id3tag)
