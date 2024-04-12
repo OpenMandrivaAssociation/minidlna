@@ -12,6 +12,7 @@ Source1:	%{name}.sysusers
 Source2:	%{name}.tmpfiles
 Source3:	%{name}.service
 Patch0:		minidlna-rundir.patch
+BuildRequires:	gettext
 BuildRequires:	pkgconfig(flac)
 BuildRequires:	pkgconfig(libexif)
 BuildRequires:	pkgconfig(id3tag)
