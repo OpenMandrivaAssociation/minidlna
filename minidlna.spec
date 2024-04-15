@@ -12,6 +12,7 @@ Source1:	%{name}.sysusers
 Source2:	%{name}.tmpfiles
 Source3:	%{name}.service
 Patch0:		minidlna-rundir.patch
+Patch1:		minidlna-1.3.3-ffmpeg7.patch
 BuildRequires:	gettext
 BuildRequires:	pkgconfig(flac)
 BuildRequires:	pkgconfig(libexif)
